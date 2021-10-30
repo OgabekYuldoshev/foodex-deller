@@ -1,36 +1,33 @@
-import colors from 'vuetify/es5/util/colors'
+import colors from "vuetify/es5/util/colors";
 
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - deller',
-    title: 'FOODEX Deller',
+    titleTemplate: "%s - deller",
+    title: "FOODEX Deller",
     htmlAttrs: {
-      lang: 'en'
+      lang: "en",
     },
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+      { charset: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { hid: "description", name: "description", content: "" },
+      { name: "format-detection", content: "telephone=no" },
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-  ],
+  css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     {
-      src: "~/plugins/api.js"
+      src: "~/plugins/api.js",
     },
     {
-      src: "~/plugins/constants.js"
-    }
+      src: "~/plugins/constants.js",
+    },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -39,54 +36,62 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/vuetify
-    '@nuxtjs/vuetify',
+    "@nuxtjs/vuetify",
   ],
   axios: {
-    baseUrl: `https://foodexx.herokuapp.com/api/v1`
+    baseUrl: `https://foodexx.herokuapp.com/api/v1`,
   },
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    '@nuxtjs/axios',
-    '@nuxtjs/auth-next',
-    '@nuxtjs/toast'
+    "@nuxtjs/axios",
+    "@nuxtjs/auth-next",
+    "@nuxtjs/toast",
+    "nuxt-socket-io",
   ],
+  io: {
+    // module options
+    sockets: [
+      {
+        name: "main",
+        url: "https://foodexx.herokuapp.com/",
+      },
+    ],
+  },
 
-   toast: {
-      position: 'top-right',
-      duration: 3000
+  toast: {
+    position: "top-right",
+    duration: 3000,
   },
 
   router: {
-    middleware: [
-      'auth'
-    ]
+    middleware: ["auth"],
   },
   auth: {
     strategies: {
       local: {
         token: {
-          property: 'token',
+          property: "token",
           global: true,
           required: true,
-          type: 'Bearer'
+          type: "Bearer",
         },
         user: {
-          property: '',
+          property: "",
           // autoFetch: true
         },
         endpoints: {
-          login: { url: '/login', method: 'post' },
-          logout: { url: '/logout', method: 'post' },
-          user: { url: '/user', method: 'get' }
-        }
-      }
-    }
+          login: { url: "/login", method: "post" },
+          logout: { url: "/logout", method: "post" },
+          user: { url: "/user", method: "get" },
+        },
+      },
+    },
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
-    customVariables: ['~/assets/variables.scss'],
+    customVariables: ["~/assets/variables.scss"],
     theme: {
       dark: true,
       themes: {
@@ -97,13 +102,12 @@ export default {
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
-          success: colors.green.accent3
-        }
-      }
-    }
+          success: colors.green.accent3,
+        },
+      },
+    },
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {
-  }
-}
+  build: {},
+};
