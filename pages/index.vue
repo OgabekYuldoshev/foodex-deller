@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col cols="12">
-      <Orders />
+      <Orders v-on:update="update()" />
     </v-col>
   </v-row>
 </template>

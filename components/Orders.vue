@@ -16,9 +16,9 @@
       :items="$store.state.orders.orders"
       :search="search"
     >
-      <template v-slot:item.payed="{ item }">
-        <v-chip :color="item.payed ? 'green accent-4' : 'red accent-4'">
-          {{ item.payed ? "paid" : "unpaid" }}
+      <template v-slot:item.paid="{ item }">
+        <v-chip :color="item.paid ? 'green accent-4' : 'red accent-4'">
+          {{ item.paid ? "paid" : "unpaid" }}
         </v-chip>
       </template>
       <template v-slot:item.status="{ item }">
@@ -48,18 +48,33 @@
                     <thead>
                       <tr>
                         <th class="text-left">Name</th>
+                        <th class="text-left">Price</th>
                         <th class="text-left">Quantity</th>
+                        <th class="text-left">All price</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr v-for="item in selectedOrder.foods" :key="item._id">
                         <td>{{ item.foodID.name }}</td>
+                        <td>
+                          {{ $constants.normalizer(item.foodID.price) }} sum
+                        </td>
                         <td>x{{ item.qty }}</td>
+                        <td>
+                          {{
+                            $constants.normalizer(item.qty * item.foodID.price)
+                          }}
+                          sum
+                        </td>
                       </tr>
                     </tbody>
                   </template>
                 </v-simple-table>
               </v-container>
+            </v-card-text>
+            <v-card-text>
+              <v-spacer></v-spacer>
+              <h2>Total : {{ $constants.normalizer(total) }} sum</h2>
             </v-card-text>
 
             <v-card-actions>
@@ -69,9 +84,16 @@
                 text
                 @click="done(selectedOrder._id, !selectedOrder.status)"
               >
-                Done
+                {{ selectedOrder.status ? "Return" : "Done" }}
               </v-btn>
-              <v-btn color="blue darken-1" text> Paid </v-btn>
+              <v-btn
+                v-show="!selectedOrder.paid"
+                color="blue darken-1"
+                text
+                @click="paid(selectedOrder._id, true)"
+              >
+                Paid
+              </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -91,6 +113,7 @@ export default {
       search: "",
       dialog: false,
       selectedOrder: {},
+      total: 0,
       headers: [
         {
           text: "Order ID",
@@ -101,7 +124,7 @@ export default {
         { text: "Table", value: "tableID" },
         { text: "Foods", value: "foods.length" },
         { text: "Payment type", value: "payment" },
-        { text: "Paid", value: "payed" },
+        { text: "Paid", value: "paid" },
         { text: "Status", value: "status" },
         { text: "Actions", value: "actions", sortable: false },
       ],
@@ -114,11 +137,20 @@ export default {
         (order) => order._id === id
       );
       this.selectedOrder = selectedOrder;
+      this.total = selectedOrder.foods.reduce((t, c) => {
+        return t + c.foodID.price * c.qty;
+      }, 0);
     },
     async done(id, status) {
+      await this.$api.orders.done({ id, status });
+      await this.$api.orders.getOrders();
+      this.dialog = false;
+    },
+    async paid(id, paid) {
+      await this.$api.orders.paid({ id, paid });
+      await this.$api.orders.getOrders();
       this.dialog = false;
     },
   },
-  
 };
 </script>

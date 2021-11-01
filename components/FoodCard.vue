@@ -86,8 +86,8 @@ export default {
   methods: {
     async show_clients(data) {
       await this.$api.foods.has_food(data);
-      this.$nuxt.refresh();
+      await this.$api.foods.getFoods();
     },
-  },
+  }
 };
 </script>
