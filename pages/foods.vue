@@ -1,25 +1,25 @@
 <template>
   <div>
-    <v-card class="mb-10">
-      <div class="d-flex align-center mx-5">
-        <v-text-field
-          class="mx-2"
-          v-model="search"
-          max-width="500"
-          label="Search"
-        ></v-text-field>
-        <v-btn @click="search_foods" fab dark small color="primary">
-          <v-icon> mdi-magnify </v-icon>
-        </v-btn>
-      </div>
-    </v-card>
-    <div style="gap: 10px" class="d-flex gap-5 flex-wrap justify-center">
+    <v-expansion-panels class="mb-5">
+      <v-expansion-panel>
+        <v-expansion-panel-header>
+          <h3>Add New Food</h3>
+        </v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <AddFood />
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
+    <!-- <v-card class="mb-10">
+      <v-card-text> </v-card-text>
+    </v-card> -->
+    <v-row>
       <FoodCard
         v-for="food in $store.state.foods.foods"
         :food="food"
         :key="food._id"
       />
-    </div>
+    </v-row>
   </div>
 </template>
 <script>
@@ -30,6 +30,9 @@ export default {
       search: "",
     };
   },
+  created(){
+    this.$fetch()
+  },
   methods: {
     search_foods() {
       alert(this.search);
@@ -37,6 +40,7 @@ export default {
   },
   async fetch() {
     await this.$api.foods.getFoods();
+    await this.$api.foods.getFoodTypes();
   },
 };
 </script>

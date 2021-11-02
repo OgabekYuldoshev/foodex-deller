@@ -9,13 +9,15 @@
 export default {
   name: "Dashboard",
   data() {
-    return {};
+    return {
+      
+    };
   },
-  async created() {
-    await this.$api.orders.getOrders();
+  created() {
+    this.$fetch();
   },
   mounted() {
-    console.log('running')
+    console.log("running");
     this.socket = this.$nuxtSocket({
       name: "main",
     });
