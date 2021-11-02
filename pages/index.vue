@@ -11,15 +11,17 @@ export default {
   data() {
     return {};
   },
+  async created() {
+    await this.$api.orders.getOrders();
+  },
   mounted() {
+    console.log('running')
     this.socket = this.$nuxtSocket({
       name: "main",
-      channel: "/",
-      reconnection: false,
     });
     this.socket.on("new_order", (data) => {
       this.$toast.success(data.msg);
-      this.$fetch()
+      this.$fetch();
     });
   },
   async fetch() {

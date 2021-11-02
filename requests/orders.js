@@ -33,4 +33,9 @@ export default (axios, store, toast) => ({
         toast.error(error);
       });
   },
+  show(id) {
+    axios.get(`/order/show?id=${id}`).catch((error) => {
+      toast.error(error);
+    });
+  },
 });

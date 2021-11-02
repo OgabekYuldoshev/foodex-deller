@@ -39,6 +39,7 @@ export default {
     "@nuxtjs/vuetify",
   ],
   axios: {
+    // baseUrl: `http://localhost:8080/api/v1`,
     baseUrl: `https://foodexx.herokuapp.com/api/v1`,
   },
 
@@ -55,6 +56,7 @@ export default {
       {
         name: "main",
         url: "https://foodexx.herokuapp.com/",
+        // url: "http://localhost:8080/",
       },
     ],
   },

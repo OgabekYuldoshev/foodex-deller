@@ -16,6 +16,11 @@
       :items="$store.state.orders.orders"
       :search="search"
     >
+      <template v-slot:item._id="{ item }">
+        <v-badge :value="!item.show" content="new" color="green" right>
+          {{ item._id }}
+        </v-badge>
+      </template>
       <template v-slot:item.paid="{ item }">
         <v-chip :color="item.paid ? 'green accent-4' : 'red accent-4'">
           {{ item.paid ? "paid" : "unpaid" }}
@@ -133,6 +138,7 @@ export default {
   methods: {
     async show_order(id) {
       this.dialog = true;
+      await this.$api.orders.show(id);
       const selectedOrder = this.$store.state.orders.orders.find(
         (order) => order._id === id
       );
@@ -140,6 +146,7 @@ export default {
       this.total = selectedOrder.foods.reduce((t, c) => {
         return t + c.foodID.price * c.qty;
       }, 0);
+      await this.$api.orders.getOrders();
     },
     async done(id, status) {
       await this.$api.orders.done({ id, status });
