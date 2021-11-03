@@ -9,23 +9,18 @@
 export default {
   name: "Dashboard",
   data() {
-    return {
-      
-    };
+    return {};
   },
-  created() {
-    this.$fetch();
-  },
-  mounted() {
-    console.log("running");
-    this.socket = this.$nuxtSocket({
-      name: "main",
-    });
-    this.socket.on("new_order", (data) => {
-      this.$toast.success(data.msg);
-      this.$fetch();
-    });
-  },
+  // mounted() {
+  //   console.log("running");
+  //   this.socket = this.$nuxtSocket({
+  //     name: "main",
+  //   });
+  //   this.socket.on("new_order", (data) => {
+  //     this.$toast.success(data.msg);
+  //     this.$fetch();
+  //   });
+  // },
   async fetch() {
     await this.$api.orders.getOrders();
   },

@@ -1,6 +1,21 @@
 export default (context, inject) => {
   const factories = {
     url: "https://foodexx.herokuapp.com/",
+    notification: (arr, type) => {
+      switch (type) {
+        case "check":
+          return arr.some((o) => o.show === false);
+          break;
+
+        case "length":
+          let found = arr.filter((o) => o.show === false);
+          return found.length;
+          break;
+
+        default:
+          break;
+      }
+    },
     normalizer: (str, chunk = 3) => {
       if (str === 0 || str === "0") {
         return str;

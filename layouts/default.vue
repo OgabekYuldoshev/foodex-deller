@@ -21,15 +21,32 @@
           <v-list-item-content>
             <v-list-item-title v-text="item.title" />
           </v-list-item-content>
+          <v-spacer />
+          <div v-if="item.to == '/'" class="mr-5">
+            <v-badge
+              v-if="
+                $constants.notification($store.state.orders.orders, 'check')
+              "
+              :content="
+                $constants.notification($store.state.orders.orders, 'length')
+              "
+            ></v-badge>
+          </div>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
     <v-app-bar :clipped-left="true" fixed app>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-badge
+        :value="$constants.notification($store.state.orders.orders, 'check')"
+        color="green"
+        overlap
+        dot
+      >
+        <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      </v-badge>
       <v-btn icon @click.stop="miniVariant = !miniVariant">
         <v-icon>mdi-{{ `chevron-${miniVariant ? "right" : "left"}` }}</v-icon>
       </v-btn>
-
       <v-toolbar-title v-text="title" />
       <v-spacer />
       <v-btn @click.stop="rightDrawer = !rightDrawer">
@@ -81,13 +98,28 @@ export default {
       title: "FOODEX Deller System",
     };
   },
-  methods:{
-    async logOut(){
-      this.$toast.show('Logging Out...')
-      await this.$auth.logout()
-      this.$router.push('/login')
-      this.$toast.success('Logged Out!')
-    }
-  }
+  created(){
+      this.$fetch()
+  },
+  async fetch(){
+      await this.$api.orders.getOrders();
+  },
+  mounted() {
+    this.socket = this.$nuxtSocket({
+      name: "main",
+    });
+    this.socket.on("new_order", async (data) => {
+      this.$toast.success(data.msg);
+      await this.$api.orders.getOrders();
+    });
+  },
+  methods: {
+    async logOut() {
+      this.$toast.show("Logging Out...");
+      await this.$auth.logout();
+      this.$router.push("/login");
+      this.$toast.success("Logged Out!");
+    },
+  },
 };
 </script>

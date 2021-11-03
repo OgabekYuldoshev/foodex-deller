@@ -1,6 +1,6 @@
 export default (axios, store, toast) => ({
-  getOrders() {
-    axios
+  async getOrders() {
+    await axios
       .get(`/orders`)
       .then((res) => {
         store.commit("orders/orders", res.data);
