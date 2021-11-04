@@ -30,8 +30,8 @@ export default {
       search: "",
     };
   },
-  created(){
-    this.$fetch()
+  created() {
+    this.$fetch();
   },
   methods: {
     search_foods() {

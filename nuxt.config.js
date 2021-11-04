@@ -20,6 +20,13 @@ export default {
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [],
 
+  ssr:false,
+  loadingIndicator: {
+    name: 'chasing-dots',
+    color: 'white',
+    background: 'black'
+  },
+
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     {
@@ -39,8 +46,8 @@ export default {
     "@nuxtjs/vuetify",
   ],
   axios: {
-    // baseUrl: `http://localhost:8080/api/v1`,
-    baseUrl: `https://foodexx.herokuapp.com/api/v1`,
+    baseUrl: `http://localhost:8080/api/v1`,
+    // baseUrl: `https://foodexx.herokuapp.com/api/v1`,
   },
 
   // Modules: https://go.nuxtjs.dev/config-modules

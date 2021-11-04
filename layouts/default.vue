@@ -98,17 +98,28 @@ export default {
       title: "FOODEX Deller System",
     };
   },
-  created(){
-      this.$fetch()
+  created() {
+    this.$fetch();
   },
-  async fetch(){
-      await this.$api.orders.getOrders();
+  async fetch() {
+    await this.$api.orders.getOrders();
   },
   mounted() {
+    if (!Notification) {
+      alert(
+        "Desktop notifications not available in your browser. Try Chromium."
+      );
+      return;
+    }
+
+    if (Notification.permission !== "granted") {
+      Notification.requestPermission();
+    }
     this.socket = this.$nuxtSocket({
       name: "main",
     });
     this.socket.on("new_order", async (data) => {
+      this.notifyMe();
       this.$toast.success(data.msg);
       await this.$api.orders.getOrders();
     });
@@ -119,6 +130,30 @@ export default {
       await this.$auth.logout();
       this.$router.push("/login");
       this.$toast.success("Logged Out!");
+    },
+    // async playAudio() {
+    //   let sound = new Audio("/alert.wav");
+    //   await sound
+    //     .play()
+    //     .then((result) => {
+    //       console.log(result);
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // },
+    notifyMe() {
+      if (Notification.permission !== "granted")
+        Notification.requestPermission();
+      else {
+        var notification = new Notification("New Order", {
+          icon: "/favicon.ico",
+          body: "You have a new order, Please check it !",
+        });
+        notification.onclick = function () {
+          window.open(window.location.origin);
+        };
+      }
     },
   },
 };
