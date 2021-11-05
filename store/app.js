@@ -1,10 +1,11 @@
 export const state = () => ({
-    loading: true,
+    qr: []
   });
   
   export const mutations = {
-    setLoading(state, data) {
-      state.loading = data;
+    getQR(state, data) {
+      console.log(data)
+      state.qr = data;
     },
   };
   

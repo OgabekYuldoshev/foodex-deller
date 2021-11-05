@@ -91,6 +91,11 @@ export default {
           title: "Foods",
           to: "/foods",
         },
+        {
+          icon: "mdi-qrcode-scan",
+          title: "QR Code Generator",
+          to: "/qr-generator",
+        },
       ],
       miniVariant: false,
       right: true,

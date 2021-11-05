@@ -48,9 +48,23 @@
                   <v-img
                     max-height="150"
                     max-width="150"
+                    :lazy-src="$constants.url + food.photo"
                     :src="$constants.url + food.photo"
                     aspect-ratio="2"
-                  ></v-img>
+                  >
+                    <template v-slot:placeholder>
+                      <v-row
+                        class="fill-height ma-0"
+                        align="center"
+                        justify="center"
+                      >
+                        <v-progress-circular
+                          indeterminate
+                          color="grey lighten-5"
+                        ></v-progress-circular>
+                      </v-row>
+                    </template>
+                  </v-img>
                   <v-file-input
                     :rules="photoRules"
                     @change="selectFile"
