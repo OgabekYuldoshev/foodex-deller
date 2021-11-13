@@ -1,6 +1,6 @@
 export default (context, inject) => {
   const factories = {
-    url: "https://foodexx.herokuapp.com/",
+    url: "https://foodex-api.herokuapp.com/",
     notification: (arr, type) => {
       switch (type) {
         case "check":
