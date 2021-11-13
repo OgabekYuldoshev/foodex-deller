@@ -65,7 +65,7 @@ export default {
     sockets: [
       {
         name: "main",
-        url: "https://foodexx.herokuapp.com/",
+        url: "https://foodex-api.herokuapp.com/",
         // url: "http://localhost:8080/",
       },
     ],
