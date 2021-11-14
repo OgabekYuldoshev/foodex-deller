@@ -1,7 +1,7 @@
 export default (axios, store, toast) => ({
   addNewFood(data) {
     axios
-      .post(`/add_food`, data, {
+      .post(`/foods/add_food`, data, {
         "Content-Type": "multipart/form-data",
       })
       .then((res) => {
@@ -13,7 +13,7 @@ export default (axios, store, toast) => ({
   },
   updateFood(data) {
     axios
-      .put(`/update_food`, data, {
+      .put(`/foods/update_food`, data, {
         "Content-Type": "multipart/form-data",
       })
       .then((res) => {
@@ -25,7 +25,7 @@ export default (axios, store, toast) => ({
   },
   deleteFood(id) {
     axios
-      .delete(`/delete_food?id=${id}`)
+      .delete(`/foods/delete_food?id=${id}`)
       .then((res) => {
         toast.success(res.data);
       })
@@ -45,7 +45,7 @@ export default (axios, store, toast) => ({
   },
   getFoodTypes() {
     axios
-      .get(`/food/types`)
+      .get(`/foods/types`)
       .then((res) => {
         store.commit("foods/types", res.data);
       })
@@ -55,7 +55,7 @@ export default (axios, store, toast) => ({
   },
   has_food(data) {
     axios
-      .put(`/has_food`, {
+      .put(`/foods/has_food`, {
         id: data.id,
         has: data.has,
       })
