@@ -3,7 +3,7 @@ export default (axios, store, toast) => ({
     axios
       .post(`/register`, data)
       .then((res) => {
-        toast.error(res.data.msg);
+        toast.success(res.data.msg);
       })
       .catch((error) => {
         toast.error(error);

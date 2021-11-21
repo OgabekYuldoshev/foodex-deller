@@ -133,14 +133,18 @@ export default {
       if (!valid) {
         return;
       }
-      await this.$api.user.register({
-        fullname: this.fullname,
-        email: this.email,
-        password: this.password,
-        number: this.number,
-        address: this.address,
-        username: this.username,
-      });
+      await this.$api.user
+        .register({
+          fullname: this.fullname,
+          email: this.email,
+          password: this.password,
+          number: this.number,
+          address: this.address,
+          username: this.username,
+        })
+        .then(() => {
+          this.$router.push("/login");
+        });
     },
   },
 };
