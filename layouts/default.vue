@@ -58,7 +58,8 @@
     </v-app-bar>
     <v-main>
       <v-container fluid>
-        <Nuxt />
+        <Verification v-if="!$auth.user.access" />
+        <Nuxt v-else />
       </v-container>
     </v-main>
     <v-navigation-drawer v-model="rightDrawer" :right="true" temporary fixed>

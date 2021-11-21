@@ -16,9 +16,9 @@
       :items="$store.state.orders.orders"
       :search="search"
     >
-      <template v-slot:item._id="{ item }">
+      <template v-slot:item.number="{ item }">
         <v-badge :value="!item.show" content="new" color="green" right>
-          {{ item._id }}
+          {{ item.number && item.number.toString().padStart(4, "0") }}
         </v-badge>
       </template>
       <template v-slot:item.paid="{ item }">
@@ -35,7 +35,14 @@
         <v-dialog v-model="dialog" max-width="700px">
           <v-card>
             <v-card-title>
-              <span class="text-h5">Order #{{ selectedOrder.tableID }}</span>
+              <span class="text-h5"
+                >Order #{{
+                  selectedOrder.number &&
+                  selectedOrder.number.toString().padStart(4, "0")
+                }}</span
+              >
+              <v-spacer />
+              <v-icon class="mr-2" @click="dialog = false"> mdi-close </v-icon>
             </v-card-title>
 
             <v-card-text>
@@ -121,10 +128,10 @@ export default {
       total: 0,
       headers: [
         {
-          text: "Order ID",
+          text: "Order Number",
           align: "start",
           filterable: false,
-          value: "_id",
+          value: "number",
         },
         { text: "Table", value: "tableID" },
         { text: "Foods", value: "foods.length" },
@@ -149,9 +156,13 @@ export default {
       await this.$api.orders.getOrders();
     },
     async done(id, status) {
+      this.socket = this.$nuxtSocket({
+        name: "main",
+      });
+      this.socket.emit("order", "hello");
       await this.$api.orders.done({ id, status });
-      await this.$api.orders.getOrders();
-      this.dialog = false;
+      // await this.$api.orders.getOrders();
+      // this.dialog = false;
     },
     async paid(id, paid) {
       await this.$api.orders.paid({ id, paid });

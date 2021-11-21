@@ -1,4 +1,27 @@
 export default (axios, store, toast) => ({
+  register(data) {
+    axios
+      .post(`/register`, data)
+      .then((res) => {
+        toast.error(res.data.msg);
+      })
+      .catch((error) => {
+        toast.error(error);
+      });
+  },
+  verifByEmail() {
+    store.commit("app/loadingStart");
+    axios
+      .get(`/verifyByEmail`)
+      .then((res) => {
+        toast.success(res.data.msg);
+        store.commit("app/loadingEnd");
+      })
+      .catch((error) => {
+        toast.error(error);
+        store.commit("app/loadingEnd");
+      });
+  },
   getQR() {
     axios
       .get(`/user/QR`)
