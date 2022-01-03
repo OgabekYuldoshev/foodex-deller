@@ -49,18 +49,22 @@
       </v-btn>
       <v-toolbar-title v-text="title" />
       <v-spacer />
+      <v-btn @click.stop="newTab()">
+        <v-icon> mdi-earth </v-icon>
+      </v-btn>
       <v-btn @click.stop="rightDrawer = !rightDrawer">
         <v-icon left> mdi-account </v-icon>{{ $auth.user.fullname }}
       </v-btn>
       <v-btn @click="logOut">
         <v-icon> mdi-logout </v-icon>
       </v-btn>
+      <!-- <v-btn @click.prevent=""> play </v-btn> -->
     </v-app-bar>
     <v-main>
       <v-container fluid>
         <Verification v-if="!$auth.user.access" />
         <!-- hello {{$auth.user.access}} -->
-        <Nuxt v-else/>
+        <Nuxt v-else />
       </v-container>
     </v-main>
     <v-navigation-drawer v-model="rightDrawer" :right="true" temporary fixed>
@@ -127,6 +131,7 @@ export default {
     });
     this.socket.on("new_order", async (data) => {
       this.notifyMe();
+      this.playSound("/alert.wav");
       this.$toast.success(data.msg);
       await this.$api.orders.getOrders();
     });
@@ -138,17 +143,15 @@ export default {
       this.$router.push("/login");
       this.$toast.success("Logged Out!");
     },
-    // async playAudio() {
-    //   let sound = new Audio("/alert.wav");
-    //   await sound
-    //     .play()
-    //     .then((result) => {
-    //       console.log(result);
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // },
+    newTab() {
+      window.open(`${location.host}/show`);
+    },
+    playSound(sound) {
+      if (sound) {
+        var audio = new Audio(sound);
+        audio.play();
+      }
+    },
     notifyMe() {
       if (Notification.permission !== "granted")
         Notification.requestPermission();

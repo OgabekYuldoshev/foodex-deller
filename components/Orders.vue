@@ -99,12 +99,11 @@
                 {{ selectedOrder.status ? "Return" : "Done" }}
               </v-btn>
               <v-btn
-                v-show="!selectedOrder.paid"
                 color="blue darken-1"
                 text
-                @click="paid(selectedOrder._id, true)"
+                @click="paid(selectedOrder._id, !selectedOrder.paid)"
               >
-                Paid
+                {{ selectedOrder.paid ? "Refund" : "Paid" }}
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -153,20 +152,20 @@ export default {
       this.total = selectedOrder.foods.reduce((t, c) => {
         return t + c.foodID.price * c.qty;
       }, 0);
-      await this.$api.orders.getOrders();
+      this.$api.orders.getOrders();
     },
-    async done(id, status) {
-      this.socket = this.$nuxtSocket({
-        name: "main",
-      });
-      this.socket.emit("order", "hello");
-      await this.$api.orders.done({ id, status });
-      // await this.$api.orders.getOrders();
-      // this.dialog = false;
+    done(id, status) {
+      // this.socket = this.$nuxtSocket({
+      //   name: "main",
+      // });
+      // this.socket.emit("order", "hello");
+      this.$api.orders.done({ id, status });
+      this.$api.orders.getOrders();
+      this.dialog = false;
     },
-    async paid(id, paid) {
-      await this.$api.orders.paid({ id, paid });
-      await this.$api.orders.getOrders();
+    paid(id, paid) {
+      this.$api.orders.paid({ id, paid });
+      this.$api.orders.getOrders();
       this.dialog = false;
     },
   },

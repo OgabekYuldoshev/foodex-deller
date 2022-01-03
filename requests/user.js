@@ -23,6 +23,8 @@ export default (axios, store, toast) => ({
       });
   },
   getQR() {
+    store.commit('app/loadingStart')
+    console.log('daksjhasdhkkajsdghjk')
     axios
       .get(`/user/QR`)
       .then((res) => {
@@ -31,6 +33,8 @@ export default (axios, store, toast) => ({
       .catch((error) => {
         toast.error(error);
       });
+    store.commit('app/loadingEnd')
+
   },
   generateQR(data) {
     axios
