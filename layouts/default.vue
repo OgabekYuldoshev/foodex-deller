@@ -55,9 +55,6 @@
       <v-btn @click.stop="rightDrawer = !rightDrawer">
         <v-icon left> mdi-account </v-icon>{{ $auth.user.fullname }}
       </v-btn>
-      <v-btn @click="logOut">
-        <v-icon> mdi-logout </v-icon>
-      </v-btn>
       <!-- <v-btn @click.prevent=""> play </v-btn> -->
     </v-app-bar>
     <v-main>
@@ -68,11 +65,7 @@
       </v-container>
     </v-main>
     <v-navigation-drawer v-model="rightDrawer" :right="true" temporary fixed>
-      <v-list>
-        <v-list-item @click.native="right = !right">
-          <SideUser />
-        </v-list-item>
-      </v-list>
+      <SideUser />
     </v-navigation-drawer>
     <v-footer app>
       <span>&copy; Powered by <a href="/">Ogabek Yuldoshev</a></span>
@@ -137,14 +130,8 @@ export default {
     });
   },
   methods: {
-    async logOut() {
-      this.$toast.show("Logging Out...");
-      await this.$auth.logout();
-      this.$router.push("/login");
-      this.$toast.success("Logged Out!");
-    },
     newTab() {
-      window.open(`${location.host}/show`);
+      window.open(`${window.location.origin}/show`);
     },
     playSound(sound) {
       if (sound) {

@@ -3,7 +3,7 @@
     <v-app-bar :clipped-left="true" fixed app> FOODEX System </v-app-bar>
     <v-main>
       <div id="main">
-        <div id="pending">
+        <div id="pending" class="d-flex flex-column flex-wrap">
           <v-chip
             v-for="order in filterPending"
             :key="order._id"
@@ -15,7 +15,7 @@
             }}</v-chip
           >
         </div>
-        <div id="done">
+        <div id="done" class="d-flex flex-column flex-wrap">
           <v-chip
             v-for="order in filterSuccess"
             :key="order._id"
@@ -63,9 +63,7 @@ export default {
   width: 50%;
   height: 100vh;
   padding: 10px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px
+  gap: 10px;
 }
 #pending {
   border-right: 2px solid lightgray;
